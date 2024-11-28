@@ -16,23 +16,31 @@ import java.util.UUID;
 public class AutocaticationService {
     private final UserRepository userRepository;
 
-    public String logIn(DTOUserIU userIU)  {
+    public String logIn(DTOUserIU userIU , Yetki yetki)  {
         User user = userRepository.findByPhoneNumber(userIU.getPhoneNumber())
                 .orElseThrow(() -> new ResourceNotFoundException("Kullanıcı bulunamamıştır !!"));
         if (!user.getPassword().equals(userIU.getPassword())) {
             throw new ResourceNotFoundException("Kullanıcı şifreniz yanlıştır");
         }else {
-            if (user.getToken().isEmpty()){
-                user.setToken(generateToken());
-                user = userRepository.save(user);
+            if (user.getYetki().equals(yetki)) {
+                if (user.getToken().isEmpty()){
+                    user.setToken(generateToken());
+                    user = userRepository.save(user);
+                }
+                return user.getToken();
+            }else{
+                throw new ResourceNotFoundException("Yetki eşleşmedi !!");
             }
-            return user.getToken();
+
         }
     }
 
-    public boolean logOut(DTOUserIU userIU)  {
-        User user = userRepository.findByPhoneNumber(userIU.getPhoneNumber())
+    public boolean logOut(String token , Yetki yetki)  {
+        User user = userRepository.findByToken(token)
                 .orElseThrow(() -> new ResourceNotFoundException("Kullanıcı bulunamamıştır !!"));
+        if (!user.getToken().equals(token)) {
+            throw new ResourceNotFoundException("Yetki eşleşmedi !!");
+        }
         user.setToken("");
         user = userRepository.save(user);
         return true;

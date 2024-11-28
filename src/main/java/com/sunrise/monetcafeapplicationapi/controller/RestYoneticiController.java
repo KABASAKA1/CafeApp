@@ -128,4 +128,16 @@ public class RestYoneticiController {
         autocaticationService.kullaniciDogrulama(request.getToken(), Yetki.YONETICI);
         return ResponseEntity.ok(yoneticiService.createKuponParameter(request.getRequest()));
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<CreateUserResponse<Long>> logIn(@RequestBody @Valid CreateUserRequst<Long> request){
+        CreateUserResponse<Long> response = new CreateUserResponse<>(autocaticationService.logIn(request.getUser(),Yetki.YONETICI) ,null);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<Boolean> logOut(@RequestBody @Valid AutocationRequest<Long> request){
+        boolean response = autocaticationService.logOut(request.getToken(), Yetki.YONETICI);
+        return ResponseEntity.ok(response);
+    }
 }

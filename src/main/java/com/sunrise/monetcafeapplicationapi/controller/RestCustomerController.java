@@ -60,4 +60,17 @@ public class RestCustomerController {
         autocaticationService.kullaniciDogrulama(request.getToken(),Yetki.CUSTOMER);
         return ResponseEntity.ok(customerService.updateSepetByCustomerId(id , request.getRequest()));
     }
+
+
+    @PostMapping("/login")
+    public ResponseEntity<CreateUserResponse<Long>> logIn(@RequestBody @Valid CreateUserRequst<Long> request){
+        CreateUserResponse<Long> response = new CreateUserResponse<>(autocaticationService.logIn(request.getUser(),Yetki.CUSTOMER) ,null);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<Boolean> logOut(@RequestBody @Valid AutocationRequest<Long> request){
+        boolean response = autocaticationService.logOut(request.getToken(), Yetki.CUSTOMER);
+        return ResponseEntity.ok(response);
+    }
 }
