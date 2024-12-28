@@ -33,13 +33,15 @@ public class RestCustomerController {
 
     @GetMapping("/{id}")
     public ResponseEntity<DTOCustomer> getCustomerById(@PathVariable Long id , @RequestBody AutocationRequest<Long> request){
-        autocaticationService.kullaniciDogrulama(request.getToken(),Yetki.CUSTOMER);
+        String phoneNumber = autocaticationService.kullaniciDogrulama(request.getToken(), Yetki.CUSTOMER);
+        customerService.getPhoneNumberById(id, phoneNumber);
         return ResponseEntity.ok(customerService.getCustomerById(id));
     }
 
     @GetMapping("/{id}/sepet")
     public ResponseEntity<DTOSepet> getSepetByCustomerId(@PathVariable Long id , @RequestBody AutocationRequest<Long> request){
-        autocaticationService.kullaniciDogrulama(request.getToken(),Yetki.CUSTOMER);
+        String phoneNumber = autocaticationService.kullaniciDogrulama(request.getToken(), Yetki.CUSTOMER);
+        customerService.getPhoneNumberById(id, phoneNumber);
         return ResponseEntity.ok(customerService.getSepetByCustomerId(id));
     }
 
@@ -51,13 +53,15 @@ public class RestCustomerController {
 
     @PutMapping("/{id}")
     public ResponseEntity<DTOCustomer> updateCustomerById(@PathVariable Long id , @RequestBody AutocationRequest<DTOCustomerIU> request){
-        autocaticationService.kullaniciDogrulama(request.getToken(),Yetki.CUSTOMER);
+        String phoneNumber = autocaticationService.kullaniciDogrulama(request.getToken(), Yetki.CUSTOMER);
+        customerService.getPhoneNumberById(id, phoneNumber);
         return ResponseEntity.ok(customerService.updateCustomerById(id , request.getRequest()));
     }
 
     @PutMapping("/{id}/sepet")
     public ResponseEntity<DTOSepet> updateSepetByCustomerId(@PathVariable Long id , @RequestBody AutocationRequest<DTOSepetIU> request){
-        autocaticationService.kullaniciDogrulama(request.getToken(),Yetki.CUSTOMER);
+        String phoneNumber = autocaticationService.kullaniciDogrulama(request.getToken(), Yetki.CUSTOMER);
+        customerService.getPhoneNumberById(id, phoneNumber);
         return ResponseEntity.ok(customerService.updateSepetByCustomerId(id , request.getRequest()));
     }
 

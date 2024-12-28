@@ -27,14 +27,15 @@ class RestCustomerControllerTest {
     private ObjectMapper objectMapper;
 
 
-    private String token;
-    private Long customerId;
+    private String token="11201FC11E3D46478B95";
+    private Long customerId=1L;
+
 
     @Test
     void createCustomer() throws JsonProcessingException {
         DTOCustomerIU dtoCustomerIU = new DTOCustomerIU();
         dtoCustomerIU.setName("serkan");    //---
-        dtoCustomerIU.setPhoneNumber("423252141");  //----
+        dtoCustomerIU.setPhoneNumber("42325214131");  //----
 
         DTOUserIU dtoUserIU = new DTOUserIU();
         dtoUserIU.setPhoneNumber(dtoCustomerIU.getPhoneNumber());   //---

@@ -62,12 +62,14 @@ public class AutocaticationService {
         return user.getToken();
     }
 
-    public void kullaniciDogrulama(String token , Yetki yetki) {
-        User user = userRepository.findByToken(token)
+    public String kullaniciDogrulama(String token , Yetki yetki) {
+        return userRepository.findByToken(token)
+                .map(user1 -> {
+                    if (user1.getYetki().equals(yetki)) {
+                        throw new ResourceNotFoundException("kullanıcı yetkisi doğulanamadı !!");
+                    }
+                    return user1.getPhoneNumber();})
                 .orElseThrow(() -> new ResourceNotFoundException("Böyle bir kullanıcı bulunmamaktadır !!!"));
-        if (!user.getYetki().equals(yetki)) {
-            throw new ResourceNotFoundException("Kullanıcı doprulanamadı");
-        }
     }
 
 

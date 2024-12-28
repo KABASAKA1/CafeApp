@@ -43,6 +43,13 @@ public class CustomerService {
                 .map(customerMapper::customerToDTO)
                 .orElseThrow(()->new ResourceNotFoundException("Customer not found for this id:"+id));
     }
+    public void getPhoneNumberById(Long id , String phoneNumber) {
+        String customerPhoneNumber = customerRepository.findPhoneNumberById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not found for this id:" + id));
+        if (!customerPhoneNumber.equals(phoneNumber)) {
+            throw new ResourceNotFoundException("Kullanıcı eşleşmedi !!");
+        }
+    }
 
     public DTOSepet getSepetByCustomerId(Long id) {
         return customerRepository.findById(id)
